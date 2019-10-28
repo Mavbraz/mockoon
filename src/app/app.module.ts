@@ -29,6 +29,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 import { EnvironmentsService } from 'src/app/services/environments.service';
 import { EventsService } from 'src/app/services/events.service';
+import { OpenAPIConverterService } from 'src/app/services/openapi-converter.service';
 import { ServerService } from 'src/app/services/server.service';
 import { SettingsService } from 'src/app/services/settings.service';
 import { ToastsService } from 'src/app/services/toasts.service';
@@ -69,6 +70,7 @@ import { AppComponent } from './app.component';
     ToastsService,
     AnalyticsService,
     AuthService,
+    OpenAPIConverterService,
     EnvironmentsService,
     EventsService,
     ServerService,

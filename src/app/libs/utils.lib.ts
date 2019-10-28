@@ -32,3 +32,7 @@ export const GetRouteResponseContentType = (environment: Environment, routeRespo
 
   return '';
 };
+
+export const RemoveLeadingSlash = (str: string) => {
+  return str.replace(/^\//g, '');
+};

@@ -11,6 +11,7 @@ import { Messages } from 'src/app/enums/messages.enum';
 import { Migrations } from 'src/app/libs/migrations.lib';
 import { DataService } from 'src/app/services/data.service';
 import { EventsService } from 'src/app/services/events.service';
+import { OpenAPIConverterService } from 'src/app/services/openapi-converter.service';
 import { ServerService } from 'src/app/services/server.service';
 import { SettingsService } from 'src/app/services/settings.service';
 import { ToastsService } from 'src/app/services/toasts.service';
@@ -74,7 +75,8 @@ export class EnvironmentsService {
     private eventsService: EventsService,
     private settingsService: SettingsService,
     private store: Store,
-    private serverService: ServerService
+    private serverService: ServerService,
+    private openapiConverterService: OpenAPIConverterService
   ) {
     // get existing environments from storage or default one
     storage.get(this.storageKey, (_error: any, environments: Environment[]) => {
@@ -519,7 +521,6 @@ export class EnvironmentsService {
     const environment = this.store.getEnvironmentByUUID(environmentUUID);
 
     try {
-      // reset environment before exporting
       clipboard.writeText(this.dataService.wrapExport(cloneDeep(environment), 'environment'));
       this.toastService.addToast('success', Messages.EXPORT_ENVIRONMENT_CLIPBOARD_SUCCESS);
       this.eventsService.analyticsEvents.next(AnalyticsEvents.EXPORT_CLIPBOARD);
@@ -747,5 +748,27 @@ export class EnvironmentsService {
     } while (usedPorts.includes(testSelectedPort));
 
     return testSelectedPort;
+  }
+
+  /**
+   * Import an OpenAPI (v2/v3) file in Mockoon's format.
+   * Append imported envs to the env array.
+   */
+  public async importOpenAPIFile() {
+    const dialogResult = await this.dialog.showOpenDialog(this.BrowserWindow.getFocusedWindow(), { filters: [{ name: 'OpenAPI v2/v3', extensions: ['yaml', 'json'] }] });
+
+    if (dialogResult.filePaths && dialogResult.filePaths[0]) {
+      const environment = await this.openapiConverterService.import(dialogResult.filePaths[0]);
+
+      console.log(environment)
+      this.store.update(addEnvironmentAction(environment));
+    }
+  }
+
+  /**
+   * Export all environments to an OpenAPI v3 file
+   */
+  public exportOpenAPIFile() {
+
   }
 }

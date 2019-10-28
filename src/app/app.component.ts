@@ -135,14 +135,20 @@ export class AppComponent implements OnInit {
             this.eventsService.settingsModalEvents.emit(true);
           }
           break;
-        case 'IMPORT_FILE':
-          this.environmentsService.importEnvironmentsFile();
-          break;
         case 'IMPORT_CLIPBOARD':
           this.environmentsService.importFromClipboard();
           break;
+        case 'IMPORT_FILE':
+          this.environmentsService.importEnvironmentsFile();
+          break;
         case 'EXPORT_FILE':
           this.environmentsService.exportAllEnvironments();
+          break;
+        case 'IMPORT_FILE_OPENAPI':
+          this.environmentsService.importOpenAPIFile();
+          break;
+        case 'EXPORT_FILE_OPENAPI':
+          this.environmentsService.exportOpenAPIFile();
           break;
       }
     });
