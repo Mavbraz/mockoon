@@ -164,7 +164,9 @@ export const mimeTypesWithTemplating = [
   'application/typescript',
   'text/plain',
   'application/xhtml+xml',
-  'application/xml'
+  'application/xml',
+  'application/soap+xml',
+  'text/xml',
 ];
 
 // values used to suggest
@@ -197,6 +199,8 @@ export const headerValues = [
   'image/png',
   'image/jpeg',
   'image/gif',
+  'application/soap+xml',
+  'text/xml',
 
   // authorization
   'Basic ',

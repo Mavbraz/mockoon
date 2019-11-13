@@ -63,6 +63,7 @@
     "spinthatshit": "1.0.4",
     "timers": "0.1.1",
     "uuid": "3.3.3",
+    "xml-js": "^1.6.11",
     "zone.js": "0.10.2"
   },
   "devDependencies": {

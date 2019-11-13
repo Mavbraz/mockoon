@@ -1,6 +1,7 @@
 import { Request } from 'express';
 import * as objectPath from 'object-path';
 import * as queryString from 'querystring';
+import * as xmlJs from 'xml-js';
 import { ResponseRule, ResponseRuleTargets, RouteResponse } from 'src/app/types/route.type';
 
 /**
@@ -67,6 +68,8 @@ export class ResponseRulesInterpreter {
         body = queryString.parse(this.request.body);
       } else if (requestContentType === 'application/json') {
         body = JSON.parse(this.request.body);
+      } else if (/(application|text)\/(.+\+)?xml/.test(requestContentType)) {
+        body = JSON.parse(xmlJs.xml2json(this.request.body, { compact: true }));
       }
     } catch (e) {
       body = {};

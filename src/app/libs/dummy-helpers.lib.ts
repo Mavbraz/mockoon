@@ -3,6 +3,7 @@ import * as DummyJSON from 'dummy-json';
 import random from 'lodash/random';
 import * as objectPath from 'object-path';
 import * as queryString from 'querystring';
+import * as xmlJs from 'xml-js';
 
 /**
  * Prevents insertion of Dummy-JSON own object (last argument) when no default value is provided:
@@ -31,7 +32,9 @@ export const DummyJSONHelpers = (request) => {
         if (requestContentType === 'application/x-www-form-urlencoded') {
           value = queryString.parse(request.body)[path];
         } else {
-          const jsonBody = JSON.parse(request.body);
+          const body = /(application|text)\/(.+\+)?xml/.test(requestContentType) ?
+            xmlJs.xml2json(request.body, { compact: true }) : request.body;
+          const jsonBody = JSON.parse(body);
           value = objectPath.ensureExists(jsonBody, path);
         }
 
