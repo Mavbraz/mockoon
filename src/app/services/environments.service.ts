@@ -500,7 +500,38 @@ export class EnvironmentsService {
         if (error) {
           this.toastService.addToast('error', Errors.EXPORT_ERROR);
         } else {
-          this.toastService.addToast('success', Messages.EXPORT_SUCCESS);
+          this.toastService.addToast('success', Messages.EXPORT_ENVIRONMENTS_SUCCESS);
+
+          this.eventsService.analyticsEvents.next(AnalyticsEvents.EXPORT_FILE);
+        }
+      });
+    } catch (error) {
+      this.toastService.addToast('error', Errors.EXPORT_ERROR);
+    }
+  }
+
+  /**
+   * Export env in a json file
+   */
+  public async exportEnvironment(environmentUUID: string) {
+    const environment = this.store.getEnvironmentByUUID(environmentUUID);
+
+    const dialogResult = await this.dialog.showSaveDialog(this.BrowserWindow.getFocusedWindow(), { filters: [{ name: 'JSON', extensions: ['json'] }] });
+
+    // If the user clicked 'cancel'
+    if (dialogResult.filePath === undefined) {
+      return;
+    }
+
+    // reset environment before exporting
+    const dataToExport = cloneDeep(environment);
+
+    try {
+      fs.writeFile(dialogResult.filePath, this.dataService.wrapExport(dataToExport, 'environment'), (error) => {
+        if (error) {
+          this.toastService.addToast('error', Errors.EXPORT_ERROR);
+        } else {
+          this.toastService.addToast('success', Messages.EXPORT_ENVIRONMENT_SUCCESS);
 
           this.eventsService.analyticsEvents.next(AnalyticsEvents.EXPORT_FILE);
         }
@@ -634,10 +665,15 @@ export class EnvironmentsService {
             return;
           }
 
-          importData.data = this.renewUUIDs(importData.data as Environments, 'full');
-          (importData.data as Environments).forEach(environment => {
-            this.store.update(addEnvironmentAction(environment));
-          });
+          if (importData.subject === 'environment') {
+            importData.data = this.renewUUIDs(importData.data as Environment, 'environment');
+            this.store.update(addEnvironmentAction(importData.data as Environment));
+          } else if (importData.subject === 'full') {
+            importData.data = this.renewUUIDs(importData.data as Environments, 'full');
+            (importData.data as Environments).forEach(environment => {
+              this.store.update(addEnvironmentAction(environment));
+            });
+          }
 
           this.eventsService.analyticsEvents.next(AnalyticsEvents.IMPORT_FILE);
         }

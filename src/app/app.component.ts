@@ -526,7 +526,7 @@ export class AppComponent implements OnInit {
           {
             payload: {
               subject,
-              action: 'export',
+              action: 'export_to_clipboard',
               subjectUUID
             },
             label: 'Copy to clipboard (JSON)',
@@ -581,7 +581,16 @@ export class AppComponent implements OnInit {
               subjectUUID
             },
             label: 'Environment settings',
-            icon: 'settings',
+            icon: 'settings'
+          },
+          {
+            payload: {
+              subject,
+              action: 'export_to_file',
+              subjectUUID
+            },
+            label: 'Export environment',
+            icon: 'import_export',
             separator: true
           });
       }
@@ -615,7 +624,10 @@ export class AppComponent implements OnInit {
           this.duplicateEnvironment(payload.subjectUUID);
         }
         break;
-      case 'export':
+      case 'export_to_file':
+        this.exportToFile(payload.subjectUUID);
+        break;
+      case 'export_to_clipboard':
         this.exportToClipboard(payload.subject, payload.subjectUUID);
         break;
       case 'delete':
@@ -631,6 +643,15 @@ export class AppComponent implements OnInit {
         }
         break;
     }
+  }
+
+  /**
+   * Export an environment in a json file
+   *
+   * @param subjectUUID
+   */
+  public exportToFile(subjectUUID: string) {
+    this.environmentsService.exportEnvironment(subjectUUID);
   }
 
   /**

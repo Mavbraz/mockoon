@@ -229,7 +229,7 @@ function createWindow() {
         }
       },
       {
-        label: 'Import all environments from file', click: function () {
+        label: 'Import environments from file', click: function () {
           mainWindow.webContents.send('keydown', { action: 'IMPORT_FILE' });
         }
       },
