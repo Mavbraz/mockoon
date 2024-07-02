@@ -208,6 +208,10 @@ export class MockoonServer extends (EventEmitter as new () => TypedEmitter<Serve
     response: Response,
     next: NextFunction
   ) => {
+    request.startedAt = new Date();
+    request.fullUrl = `${request.protocol}://${request.get('host')}${
+      request.originalUrl
+    }`;
     this.emit('entering-request');
     next();
   };
@@ -1117,6 +1121,7 @@ export class MockoonServer extends (EventEmitter as new () => TypedEmitter<Serve
             this.refreshEnvironment();
 
             request.proxied = true;
+            request.proxyUrl = `${this.environment.proxyHost}${proxyReq.path}`;
 
             this.setHeaders(
               this.environment.proxyReqHeaders,

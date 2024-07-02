@@ -1,4 +1,4 @@
-import { Header, Methods } from './route.model';
+import { Cookie, Header, Methods } from './route.model';
 
 export type ProcessedDatabucket = {
   id: string;
@@ -28,18 +28,25 @@ export type Transaction = {
   request: {
     method: keyof typeof Methods;
     urlPath: string | null;
+    fullUrl: string;
+    proxyUrl?: string;
     route: string | null;
     params: { name: string; value: string }[];
     query: string | null;
     queryParams: any;
     body: any;
     headers: Header[];
+    httpVersion: string;
+    mimeType?: string;
+    cookies: Cookie[];
+    startedAt: Date;
   };
   response: {
     statusCode: number;
     statusMessage: string;
     headers: Header[];
     body: string;
+    cookies: Cookie[];
   };
   proxied: boolean;
   routeUUID: string;

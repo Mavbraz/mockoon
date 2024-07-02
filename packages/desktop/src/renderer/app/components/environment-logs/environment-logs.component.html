@@ -33,6 +33,16 @@
       <button
         *ngIf="data.environmentLogs?.length"
         type="button"
+        id="export-har"
+        class="btn btn-link btn-icon pl-2"
+        ngbTooltip="Export HAR"
+        (click)="exportHAR()"
+      >
+        <app-svg icon="save"></app-svg>
+      </button>
+      <button
+        *ngIf="data.environmentLogs?.length"
+        type="button"
         id="clear-logs"
         class="btn btn-link btn-icon pl-2 {{
           (clearEnvironmentLogsRequested$ | async).enabled ? 'text-danger' : ''
@@ -62,6 +72,7 @@
                 active: log.UUID === (activeEnvironmentLogUUID$ | async)
               }"
               (click)="selectLog(log.UUID)"
+              (contextmenu)="openContextMenu(log.UUID, $event)"
             >
               <div class="d-flex flex-column">
                 <div class="d-flex">
@@ -86,7 +97,16 @@
                     <div>
                       <button
                         type="button"
-                        class="btn btn-link btn-icon btn-mock"
+                        class="btn btn-link btn-icon btn-log-icon"
+                        (click)="exportHAR(log.UUID)"
+                      >
+                        <app-svg icon="save" ngbTooltip="Export HAR"></app-svg>
+                      </button>
+                    </div>
+                    <div>
+                      <button
+                        type="button"
+                        class="btn btn-link btn-icon btn-log-icon"
                         (click)="
                           createRouteFromLog(
                             data.activeEnvironmentUUID,

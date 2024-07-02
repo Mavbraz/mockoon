@@ -22,7 +22,8 @@ export type ContextMenuItemPayload = {
     | 'copyJSON'
     | 'copyFullPath'
     | 'copyDatabucketID'
-    | 'toggle';
+    | 'toggle'
+    | 'exportHar';
   subjectUUID: string;
   parentId?: string | 'root';
 };

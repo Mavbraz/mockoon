@@ -270,3 +270,16 @@ export const CallbacksContextMenu = (
     disabled: false
   }
 ];
+
+export const LogsContextMenu = (logUUID: string): ContextMenuItem[] => [
+  {
+    payload: {
+      subject: 'callback',
+      action: 'exportHar',
+      subjectUUID: logUUID
+    },
+    label: 'Export HAR',
+    icon: 'save',
+    disabled: false
+  }
+];

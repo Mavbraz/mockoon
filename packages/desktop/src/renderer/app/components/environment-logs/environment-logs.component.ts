@@ -2,7 +2,9 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { TimedBoolean } from 'src/renderer/app/classes/timed-boolean';
+import { LogsContextMenu } from 'src/renderer/app/components/context-menu/context-menus';
 import { GetEditorModeFromContentType } from 'src/renderer/app/libs/utils.lib';
+import { ContextMenuEvent } from 'src/renderer/app/models/context-menu.model';
 import {
   EnvironmentLog,
   EnvironmentLogRequest,
@@ -12,6 +14,7 @@ import { EnvironmentLogsTabsNameType } from 'src/renderer/app/models/store.model
 import { DataService } from 'src/renderer/app/services/data.service';
 import { EnvironmentsService } from 'src/renderer/app/services/environments.service';
 import { EventsService } from 'src/renderer/app/services/events.service';
+import { ImportExportService } from 'src/renderer/app/services/import-export.service';
 import { UIService } from 'src/renderer/app/services/ui.service';
 import {
   clearLogsAction,
@@ -62,6 +65,7 @@ export class EnvironmentLogsComponent implements OnInit {
   constructor(
     private store: Store,
     private environmentsService: EnvironmentsService,
+    private importExportService: ImportExportService,
     private dataService: DataService,
     private eventsService: EventsService,
     private uiService: UIService
@@ -198,5 +202,21 @@ export class EnvironmentLogsComponent implements OnInit {
    */
   public stopRecording(environmentUuid: string) {
     this.environmentsService.stopRecording(environmentUuid);
+  }
+
+  public openContextMenu(logUuid: string, event: MouseEvent) {
+    // if right click display context menu
+    if (event && event.button === 2) {
+      const menu: ContextMenuEvent = {
+        event,
+        items: LogsContextMenu(logUuid)
+      };
+
+      this.eventsService.contextMenuEvents.next(menu);
+    }
+  }
+
+  public exportHAR(logUuid?: string) {
+    this.importExportService.exportLogs(logUuid).subscribe();
   }
 }

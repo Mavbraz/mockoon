@@ -20,6 +20,7 @@ import { ApiService } from 'src/renderer/app/services/api.service';
 import { AppQuitService } from 'src/renderer/app/services/app-quit.services';
 import { EnvironmentsService } from 'src/renderer/app/services/environments.service';
 import { EventsService } from 'src/renderer/app/services/events.service';
+import { ImportExportService } from 'src/renderer/app/services/import-export.service';
 import { SettingsService } from 'src/renderer/app/services/settings.service';
 import { TelemetryService } from 'src/renderer/app/services/telemetry.service';
 import { ToastsService } from 'src/renderer/app/services/toasts.service';
@@ -51,6 +52,7 @@ export class AppComponent extends Logger implements OnInit {
     private settingsService: SettingsService,
     private appQuitService: AppQuitService,
     private userService: UserService,
+    private importExportService: ImportExportService,
     private title: Title
   ) {
     super('[RENDERER][COMPONENT][APP] ', toastService);
@@ -221,6 +223,9 @@ export class AppComponent extends Logger implements OnInit {
             .moveEnvironmentFileToFolder(payload.subjectUUID)
             .subscribe();
         }
+        break;
+      case 'exportHar':
+        this.importExportService.exportLogs(payload.subjectUUID).subscribe();
         break;
     }
   }
