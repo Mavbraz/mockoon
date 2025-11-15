@@ -621,6 +621,25 @@ class Routes {
     await $(selectors[tabName]).click();
   }
 
+  public async assertActiveRouteResponseTab(
+    tabName: TabsNameType
+  ): Promise<void> {
+    const selectors: Record<typeof tabName, string> = {
+      RESPONSE:
+        '#route-responses-menu .nav.nav-tabs .nav-item:nth-child(1) .nav-link',
+      HEADERS:
+        '#route-responses-menu .nav.nav-tabs .nav-item:nth-child(2) .nav-link',
+      RULES:
+        '#route-responses-menu .nav.nav-tabs .nav-item:nth-child(3) .nav-link',
+      CALLBACKS:
+        '#route-responses-menu .nav.nav-tabs .nav-item:nth-child(4) .nav-link',
+      SETTINGS:
+        '#route-responses-menu .nav.nav-tabs .nav-item:nth-child(5) .nav-link'
+    };
+
+    await utils.assertHasClass($(selectors[tabName]), 'active');
+  }
+
   public async assertRoutePaddingLevel(
     index: number,
     level: number

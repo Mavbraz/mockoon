@@ -43,6 +43,55 @@
       "port": 9222,
       "urlFilter": "http://localhost:3001/*",
       "webRoot": "${workspaceFolder}/packages/app"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug WebdriverIO Tests",
+      "cwd": "${workspaceFolder}/packages/app",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "--inspect-brk",
+        "${workspaceFolder}/node_modules/.bin/wdio"
+      ],
+      "windows": {
+        "runtimeArgs": [
+          "--inspect-brk",
+          "${workspaceFolder}/node_modules/@wdio/cli/bin/wdio.js"
+        ]
+      },
+      "args": ["run", "./test/wdio-win.conf.ts", "--spec", "${fileBasename}"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": ["<node_internals>/**"],
+      "outputCapture": "std"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug routes-create-delete.spec.ts",
+      "cwd": "${workspaceFolder}/packages/app",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "--inspect-brk",
+        "${workspaceFolder}/node_modules/.bin/wdio"
+      ],
+      "windows": {
+        "runtimeArgs": [
+          "--inspect-brk",
+          "${workspaceFolder}/node_modules/@wdio/cli/bin/wdio.js"
+        ]
+      },
+      "args": [
+        "run",
+        "./test/wdio-win.conf.ts",
+        "--spec",
+        "routes-create-delete.spec.ts"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": ["<node_internals>/**"],
+      "outputCapture": "std"
     }
   ],
   "compounds": [

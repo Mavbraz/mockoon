@@ -13,7 +13,10 @@ const config: WebdriverIO.Config = {
           'win-unpacked',
           'Mockoon.exe'
         ),
-        appArgs: ['user-data-dir=' + join(process.cwd(), 'tmp')]
+        appArgs: [
+          'user-data-dir=' + join(process.cwd(), 'tmp'),
+          '--enable-dev-tools'
+        ]
       }
     }
   ]
