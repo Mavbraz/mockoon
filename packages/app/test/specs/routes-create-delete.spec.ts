@@ -56,7 +56,7 @@ describe('Create and delete routes', () => {
 
     it('should switch to CALLBACKS tab', async () => {
       await routes.switchTab('CALLBACKS');
-      await routes.assertActiveRouteResponseTab('CALLBACKS');
+      await routes.assertActiveRouteTab(4);
     });
 
     it('should delete the HTTP route and verify tab is reset to CRUD RESPONSE', async () => {
@@ -65,7 +65,7 @@ describe('Create and delete routes', () => {
     });
 
     it('should verify the CRUD route does not have CALLBACKS tab', async () => {
-      await routes.assertActiveRouteResponseTab('RESPONSE');
+      await routes.assertActiveRouteTab(1);
     });
   });
 
@@ -83,7 +83,7 @@ describe('Create and delete routes', () => {
 
     it('should select first HTTP route and switch to CALLBACKS tab', async () => {
       await routes.switchTab('CALLBACKS');
-      await routes.assertActiveRouteResponseTab('CALLBACKS');
+      await routes.assertActiveRouteTab(4);
     });
 
     it('should delete the HTTP route and verify tab is reset to RESPONSE', async () => {
@@ -92,7 +92,7 @@ describe('Create and delete routes', () => {
     });
 
     it('should verify the WebSocket route does not have CALLBACKS tab', async () => {
-      await routes.assertActiveRouteResponseTab('RESPONSE');
+      await routes.assertActiveRouteTab(1);
     });
   });
 });
